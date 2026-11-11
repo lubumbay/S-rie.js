@@ -1,0 +1,10 @@
+{
+  "serie1": {
+    "title": "Ayoumani",
+    "driveLink": "https://drive.google.com/drive/folders/VOTRE_LIEN",
+    "price": {
+      "TZA": { "amount": 2000, "currency": "TZS" },
+      "COD": { "amount": 5000, "currency": "CDF" }
+    }
+  }
+}
