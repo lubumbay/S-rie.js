@@ -3,37 +3,37 @@
 require("dotenv").config();
 const express = require("express");
 const fs = require("fs");
-const crypto = require("crypto");
+const  crypto = require ( "crypto" ) ;
 
-const app = express();
-app.set("trust proxy", 1);
-app.use(express.json());
+const  app = express ( ) ;
+app.set ( " trust proxy " , 1 ) ;
+app.use ( express.json ( ) );json());
 
-// Autorise la page web (hébergée ailleurs) à appeler ce serveur
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", process.env.SITE_URL || "*");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-Admin-Password");
-  if (req.method === "OPTIONS") return res.sendStatus(204);
-  next();
-});
+// Autoriser la page web (hébergée ailleurs) à appeler ce serveur
+app.use((req, res, next) => {.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", process.env.SITE_URL || "*");res.setHeader("Access-Control-Allow-Origin", process.env.SITE_URL || "*");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-Admin-Password");res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-Admin-Password");
+  si (req.method === "OPTIONS") retourner res.sendStatus(204);if (req.method === "OPTIONS") return res.sendStatus(204);
+  suivant();next();
+}););
 
-const {
-  PAWAPAY_TOKEN,                  // clé API (jamais dans l'app !)
-  PAWAPAY_BASE = "https://api.sandbox.pawapay.io", // prod : https://api.pawapay.io
-  RETURN_URL,                     // où renvoyer le client après paiement
-  ADMIN_PASSWORD,                 // mot de passe de l'espace administrateur
-  PORT = 3000,
-} = process.env;
+const { {
+  PAWAPAY_TOKEN, // clé API (jamais dans l'app !)PAWAPAY_TOKEN,                  // clé API (jamais dans l'app !)
+  PAWAPAY_BASE = "https://api.sandbox.pawapay.io", // prod : https://api.pawapay.ioPAWAPAY_BASE = "https://api.sandbox.pawapay.io", // prod : https://api.pawapay.io
+  RETURN_URL, // où renvoyer le client après paiementRETURN_URL,                     // où renvoyer le client après paiement
+  ADMIN_PASSWORD, // mot de passe de l'administrateur d'espaceADMIN_PASSWORD,                 // mot de passe de l'espace administrateur
+  PORT = 3000,PORT = 3000,
+} = process.env; = process.env;
 
-const SERIES = JSON.parse(fs.readFileSync("./series.json", "utf8"));
-const DB_FILE = "./purchases.json";
+const SERIES = JSON.parse(fs.readFileSync("./series.json", "utf8")); SERIES = JSON.parse(fs.readFileSync("./series.json", "utf8"));
+const DB_FILE = "./purchases.json"; DB_FILE = "./purchases.json";
 
 // --- Mini base de données (fichier JSON). Remplacez par Airtable/Supabase plus tard.
-const load = () => (fs.existsSync(DB_FILE) ? JSON.parse(fs.readFileSync(DB_FILE, "utf8")) : {});
-const save = (db) => fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2));
+const load = () => (fs.existsSync(DB_FILE) ? JSON.parse(fs.readFileSync(DB_FILE, "utf8")) : {}); load = () => (fs.existsSync(DB_FILE) ? JSON.parse(fs.readFileSync(DB_FILE, "utf8")) : {});
+const save = (db) => fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2)); save = (db) => fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2));
 
-const pawapay = (path, options = {}) =>
-  fetch(PAWAPAY_BASE + path, {
+const pawapay = (chemin, options = {}) => pawapay = (path, options = {}) =>
+  récupérer(PAWAPAY_BASE + chemin, {fetch(PAWAPAY_BASE + path, {
     ...options,
     headers: {
       Authorization: `Bearer ${PAWAPAY_TOKEN}`,
